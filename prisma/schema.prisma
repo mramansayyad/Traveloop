@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String             @id @default(cuid())
+  email             String             @unique
+  name              String?
+  avatarUrl         String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  trips             Trip[]
+  preferences       TravelPreferences?
+  aiConversations   AIConversation[]
+}
+
+model TravelPreferences {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  budgetLevel String?  // e.g., "budget", "moderate", "luxury"
+  interests   String[] // e.g., ["culture", "food", "adventure"]
+  pace        String?  // e.g., "slow", "moderate", "fast"
+}
+
+model Trip {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  coverImage  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  stops       Stop[]
+  budget      Budget?
+  notes       Note[]
+  packingList PackingItem[]
+  sharedTrips SharedTrip[]
+}
+
+model Stop {
+  id         String   @id @default(cuid())
+  cityName   String
+  country    String
+  arrivalAt  DateTime
+  departureAt DateTime
+  tripId     String
+  trip       Trip     @relation(fields: [tripId], references: [id])
+  activities Activity[]
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  cost        Float?
+  duration    Int? // in minutes
+  category    String?
+  stopId      String
+  stop        Stop     @relation(fields: [stopId], references: [id])
+}
+
+model Budget {
+  id            String   @id @default(cuid())
+  tripId        String   @unique
+  trip          Trip     @relation(fields: [tripId], references: [id])
+  totalBudget   Float
+  spent         Float    @default(0)
+  currency      String   @default("USD")
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tripId    String
+  trip      Trip     @relation(fields: [tripId], references: [id])
+}
+
+model PackingItem {
+  id          String   @id @default(cuid())
+  name        String
+  category    String?  // e.g., "Clothing", "Electronics"
+  packed      Boolean  @default(false)
+  tripId      String
+  trip        Trip     @relation(fields: [tripId], references: [id])
+}
+
+model SharedTrip {
+  id          String   @id @default(cuid())
+  tripId      String
+  trip        Trip     @relation(fields: [tripId], references: [id])
+  sharedWith  String?  // email or user ID
+  accessLevel String   @default("VIEW") // VIEW or EDIT
+}
+
+model AIConversation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  messages  AIMessage[]
+}
+
+model AIMessage {
+  id             String         @id @default(cuid())
+  conversationId String
+  conversation   AIConversation @relation(fields: [conversationId], references: [id])
+  role           String         // "user" or "model"
+  content        String
+  createdAt      DateTime       @default(now())
+}
+
+model Destination {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  country     String
+  imageUrl    String?
+  popularity  Int      @default(0)
+}

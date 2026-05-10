@@ -1,65 +1,67 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Sparkles, ArrowRight, Compass, MapPin, Calendar } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Background Gradients */}
+      <div className="absolute top-0 -left-40 w-80 h-80 bg-purple-700 rounded-full filter blur-3xl opacity-30 animate-pulse"></div>
+      <div className="absolute bottom-0 -right-40 w-80 h-80 bg-cyan-700 rounded-full filter blur-3xl opacity-30 animate-pulse delay-700"></div>
+
+      <main className="z-10 text-center max-w-4xl px-4">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full mb-8 backdrop-blur-sm">
+          <Sparkles size={16} className="text-cyan-400" />
+          <span className="text-sm font-medium">Powered by Gemini 3</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
+
+        {/* Hero Title */}
+        <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight">
+          Your Next Adventure,{" "}
+          <span className="text-gradient">AI-Engineered</span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+          Traveloop uses advanced AI to craft personalized itineraries, discover hidden gems, and optimize your travel budget.
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <Link href="/dashboard" className="gradient-premium text-white px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+            Start Planning <ArrowRight size={20} />
+          </Link>
+          <a href="#features" className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors">
+            Explore Features
           </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+          <div className="glass-dark p-6 rounded-2xl border border-white/5">
+            <Compass className="text-purple-500 mb-4" size={32} />
+            <h3 className="text-lg font-semibold mb-2">Smart Itineraries</h3>
+            <p className="text-gray-400 text-sm">Day-wise plans optimized for your interests and pace.</p>
+          </div>
+          <div className="glass-dark p-6 rounded-2xl border border-white/5">
+            <MapPin className="text-cyan-500 mb-4" size={32} />
+            <h3 className="text-lg font-semibold mb-2">Hidden Gems</h3>
+            <p className="text-gray-400 text-sm">Discover places tourists usually miss, curated by AI.</p>
+          </div>
+          <div className="glass-dark p-6 rounded-2xl border border-white/5">
+            <Calendar className="text-emerald-500 mb-4" size={32} />
+            <h3 className="text-lg font-semibold mb-2">Seamless Scheduling</h3>
+            <p className="text-gray-400 text-sm">Real-time collaboration and drag-and-drop timeline.</p>
+          </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="absolute bottom-8 text-gray-600 text-sm">
+        © 2026 Traveloop. Built with Next.js and Google Gemini.
+      </footer>
     </div>
   );
 }
+
