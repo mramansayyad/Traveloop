@@ -1,5 +1,5 @@
 import React from "react";
-import { Compass, MapPin, Calendar, DollarSign, Clock, Check, ChevronLeft, Share2, Printer, Plus } from "lucide-react";
+import { Compass, MapPin, Calendar, DollarSign, Clock, Check, ChevronLeft, Share2, Printer, Plus, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/shared/Header";
 import prisma from "@/lib/prisma";
@@ -36,6 +36,12 @@ export default async function TripItinerary({ params }: { params: Promise<{ id: 
             Back to Dashboard
           </Link>
           <div className="flex items-center gap-3">
+            <Link href={`/trips/${id}/packing`}>
+              <button className="bg-white border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl hover:bg-slate-50 transition-colors shadow-sm text-sm font-medium flex items-center gap-2">
+                <ShoppingBag size={16} className="text-indigo-600" />
+                <span>Packing List</span>
+              </button>
+            </Link>
             <button className="bg-white border border-slate-200 text-slate-700 p-2.5 rounded-xl hover:bg-slate-50 transition-colors shadow-sm">
               <Share2 size={16} />
             </button>
