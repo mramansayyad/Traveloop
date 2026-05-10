@@ -57,23 +57,25 @@ export default async function Dashboard() {
                 </div>
               ) : (
                 trips.map((trip) => (
-                  <div key={trip.id} className="bg-slate-50 p-4 rounded-xl flex items-center gap-4 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-100">
-                    <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                      <Compass size={24} className="text-indigo-600" />
+                  <Link href={`/trips/${trip.id}`} key={trip.id} className="block">
+                    <div className="bg-slate-50 p-4 rounded-xl flex items-center gap-4 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-100">
+                      <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                        <Compass size={24} className="text-indigo-600" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-base text-slate-900">{trip.title}</h3>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          {new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-indigo-600 font-semibold text-base">
+                          ${trip.budget?.totalBudget.toLocaleString() || "0"}
+                        </span>
+                        <p className="text-xs text-slate-500 font-medium">Budget</p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-base text-slate-900">{trip.title}</h3>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        {new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-indigo-600 font-semibold text-base">
-                        ${trip.budget?.totalBudget.toLocaleString() || "0"}
-                      </span>
-                      <p className="text-xs text-slate-500 font-medium">Budget</p>
-                    </div>
-                  </div>
+                  </Link>
                 ))
               )}
             </div>

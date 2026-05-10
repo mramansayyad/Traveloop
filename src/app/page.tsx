@@ -23,7 +23,7 @@ export default function Home() {
             <a href="#how-it-works" className="text-sm font-medium text-slate-600 hover:text-slate-900">How it Works</a>
             <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-slate-900">FAQ</a>
           </div>
-          <Link href="/dashboard" className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-indigo-700 transition-colors shadow-sm">
+          <Link href="/login" className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-indigo-700 transition-colors shadow-sm">
             Launch App
           </Link>
         </div>
@@ -50,7 +50,7 @@ export default function Home() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-24">
-          <Link href="/dashboard" className="bg-indigo-600 text-white px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-colors shadow-sm text-lg">
+          <Link href="/login" className="bg-indigo-600 text-white px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-colors shadow-sm text-lg">
             Start Planning <ArrowRight size={20} />
           </Link>
           <a href="#features" className="bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors shadow-sm text-lg">
@@ -193,7 +193,7 @@ export default function Home() {
         <div className="w-full bg-indigo-600 text-white rounded-3xl p-12 text-center mb-20 shadow-lg shadow-indigo-100">
           <h2 className="text-4xl font-bold mb-4">Ready to Explore?</h2>
           <p className="text-indigo-100 mb-8 max-w-xl mx-auto">Join thousands of travelers who are using AI to make their trips unforgettable.</p>
-          <Link href="/dashboard" className="bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2 hover:bg-slate-50 transition-colors shadow-sm text-lg">
+          <Link href="/login" className="bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold inline-flex items-center gap-2 hover:bg-slate-50 transition-colors shadow-sm text-lg">
             Start Planning Now <ArrowRight size={20} />
           </Link>
         </div>
