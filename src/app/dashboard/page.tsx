@@ -1,5 +1,5 @@
 import React from "react";
-import { Compass, MapPin, Calendar, DollarSign, Plus, Sparkles, TrendingUp } from "lucide-react";
+import { Compass, MapPin, Calendar, IndianRupee, Plus, Sparkles, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/shared/Header";
 import prisma from "@/lib/prisma";
@@ -70,7 +70,7 @@ export default async function Dashboard() {
                       </div>
                       <div className="text-right">
                         <span className="text-indigo-600 font-semibold text-base">
-                          ${trip.budget?.totalBudget.toLocaleString() || "0"}
+                          ₹{trip.budget?.totalBudget.toLocaleString() || "0"}
                         </span>
                         <p className="text-xs text-slate-500 font-medium">Budget</p>
                       </div>
@@ -85,13 +85,13 @@ export default async function Dashboard() {
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-semibold flex items-center gap-2 text-slate-900">
-                <DollarSign className="text-emerald-600" size={18} />
+                <IndianRupee className="text-emerald-600" size={18} />
                 Budget Insights
               </h2>
             </div>
             <div className="text-center py-4 flex-1 flex flex-col justify-center">
               <span className="text-4xl font-bold text-slate-900">
-                ${trips.reduce((acc, trip) => acc + (trip.budget?.totalBudget || 0), 0).toLocaleString()}
+                ₹{trips.reduce((acc, trip) => acc + (trip.budget?.totalBudget || 0), 0).toLocaleString()}
               </span>
               <p className="text-sm text-slate-500 mt-1 font-medium">Total Planned Budget</p>
               <div className="mt-4 flex items-center justify-center gap-1 text-xs text-emerald-600 font-medium">

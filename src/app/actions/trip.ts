@@ -37,8 +37,8 @@ export async function saveTrip(data: {
         userId: user.id,
         budget: {
           create: {
-            totalBudget: data.budget === "luxury" ? 5000 : data.budget === "moderate" ? 2000 : 1000,
-            currency: "USD",
+            totalBudget: data.budget === "luxury" ? 50000 : data.budget === "moderate" ? 20000 : 10000,
+            currency: "INR",
           },
         },
       },

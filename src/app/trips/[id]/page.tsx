@@ -1,5 +1,5 @@
 import React from "react";
-import { Compass, MapPin, Calendar, DollarSign, Clock, Check, ChevronLeft, Share2, Printer, Plus, ShoppingBag } from "lucide-react";
+import { Compass, MapPin, Calendar, IndianRupee, Clock, Check, ChevronLeft, Share2, Printer, Plus, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/shared/Header";
 import prisma from "@/lib/prisma";
@@ -80,8 +80,8 @@ export default async function TripItinerary({ params }: { params: Promise<{ id: 
                 <span>{trip.stops.length} Stops Planned</span>
               </div>
               <div className="flex items-center gap-2">
-                <DollarSign size={16} className="text-slate-400" />
-                <span>Budget: ${trip.budget?.totalBudget.toLocaleString()}</span>
+                <IndianRupee size={16} className="text-slate-400" />
+                <span>Budget: ₹{trip.budget?.totalBudget.toLocaleString()}</span>
               </div>
             </div>
             
@@ -141,7 +141,7 @@ export default async function TripItinerary({ params }: { params: Promise<{ id: 
                                 2 hours
                               </span>
                               <span className="flex items-center gap-1">
-                                <DollarSign size={12} />
+                                <IndianRupee size={12} />
                                 Free
                               </span>
                             </div>
@@ -168,30 +168,30 @@ export default async function TripItinerary({ params }: { params: Promise<{ id: 
             {/* Budget Breakdown */}
             <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
               <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                <DollarSign className="text-emerald-600" size={18} />
+                <IndianRupee className="text-emerald-600" size={18} />
                 Cost Breakdown
               </h3>
               
               <div className="space-y-4">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-slate-500">Accommodation</span>
-                  <span className="font-medium text-slate-900">$1,200</span>
+                  <span className="font-medium text-slate-900">₹12,000</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-slate-500">Activities</span>
-                  <span className="font-medium text-slate-900">$400</span>
+                  <span className="font-medium text-slate-900">₹4,000</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-slate-500">Food & Dining</span>
-                  <span className="font-medium text-slate-900">$300</span>
+                  <span className="font-medium text-slate-900">₹3,000</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-slate-500">Transport</span>
-                  <span className="font-medium text-slate-900">$500</span>
+                  <span className="font-medium text-slate-900">₹5,000</span>
                 </div>
                 <div className="border-t border-slate-100 pt-4 flex justify-between items-center">
                   <span className="font-semibold text-slate-900">Total Estimated</span>
-                  <span className="font-bold text-indigo-600">${trip.budget?.totalBudget.toLocaleString()}</span>
+                  <span className="font-bold text-indigo-600">₹{trip.budget?.totalBudget.toLocaleString()}</span>
                 </div>
               </div>
             </div>
