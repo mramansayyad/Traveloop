@@ -4,6 +4,7 @@ import Link from "next/link";
 import Header from "@/components/shared/Header";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import OSMMap from "@/components/shared/OSMMap";
 
 export default async function TripItinerary({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -188,18 +189,8 @@ export default async function TripItinerary({ params }: { params: Promise<{ id: 
               </div>
             </div>
 
-            {/* Map Placeholder */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                <MapPin className="text-indigo-600" size={18} />
-                Route Map
-              </h3>
-              <div className="bg-slate-100 h-64 rounded-xl flex flex-col items-center justify-center text-slate-400 font-medium border border-slate-200">
-                <MapPin size={32} className="text-slate-300 mb-2" />
-                <p className="text-sm">Map Visualization</p>
-                <p className="text-xs text-slate-400 mt-1">Interactive map loading...</p>
-              </div>
-            </div>
+            {/* Map */}
+            <OSMMap cityName={trip.stops[0]?.cityName || "Paris"} />
           </div>
         </div>
       </main>
