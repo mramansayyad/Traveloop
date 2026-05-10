@@ -4,12 +4,13 @@ import { Sparkles, ArrowRight, Compass, MapPin, Calendar } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-between relative overflow-hidden p-6">
       {/* Background Gradients */}
       <div className="absolute top-0 -left-40 w-80 h-80 bg-indigo-50 rounded-full filter blur-3xl opacity-50"></div>
       <div className="absolute bottom-0 -right-40 w-80 h-80 bg-purple-50 rounded-full filter blur-3xl opacity-50"></div>
 
-      <main className="z-10 text-center max-w-4xl px-4">
+      {/* Spacer for centering content vertically */}
+      <div className="flex-1 flex flex-col items-center justify-center max-w-4xl w-full">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-white border border-slate-100 px-4 py-2 rounded-full mb-8 shadow-sm">
           <Sparkles size={16} className="text-indigo-600" />
@@ -17,13 +18,13 @@ export default function Home() {
         </div>
 
         {/* Hero Title */}
-        <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight text-slate-900">
+        <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight text-slate-900 text-center">
           Your Next Adventure,{" "}
           <span className="text-indigo-600">AI-Engineered</span>
         </h1>
 
         {/* Subtitle */}
-        <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto text-center">
           Traveloop uses advanced AI to craft personalized itineraries, discover hidden gems, and optimize your travel budget.
         </p>
 
@@ -38,7 +39,7 @@ export default function Home() {
         </div>
 
         {/* Feature Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+        <div id="features" className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left w-full scroll-mt-20">
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
             <Compass className="text-indigo-600 mb-4" size={32} />
             <h3 className="text-lg font-semibold mb-2 text-slate-900">Smart Itineraries</h3>
@@ -55,10 +56,10 @@ export default function Home() {
             <p className="text-slate-600 text-sm">Real-time collaboration and drag-and-drop timeline.</p>
           </div>
         </div>
-      </main>
+      </div>
 
       {/* Footer */}
-      <footer className="absolute bottom-8 text-slate-500 text-sm">
+      <footer className="w-full text-center py-6 text-slate-500 text-sm mt-12 border-t border-slate-100">
         © 2026 Traveloop. Built with Next.js and Google Gemini.
       </footer>
     </div>
