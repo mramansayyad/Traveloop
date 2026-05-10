@@ -1,39 +1,81 @@
-# Traveloop
+# 🌍 Traveloop — AI-Powered Personalized Travel Planning Platform
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
+[![Gemini](https://img.shields.io/badge/Powered%20By-Google%20Gemini-orange?style=for-the-badge&logo=google)](https://ai.google.dev/)
+[![Prisma](https://img.shields.io/badge/Prisma-6-purple?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
 
-## Getting Started
+**Traveloop** is a production-grade, full-stack AI travel planner built to win hackathons and wow users. It helps you create multi-city itineraries, discover hidden gems, and optimize your budget using advanced Google Gemini AI models.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🤖 **AI Itinerary Builder**: Generate detailed day-wise plans in seconds using Gemini 3 Flash.
+- 💎 **Hidden Gems Explorer**: Discover off-the-beaten-path locations curated by AI.
+- 💰 **Smart Budget Analytics**: Track expenses and get AI recommendations on where to save.
+- 🧳 **Dynamic Packing Checklist**: Weather-aware, AI-generated packing suggestions.
+- 🎨 **Premium UI/UX**: Glassmorphism design, smooth animations (Framer Motion), and dark mode default.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+- **Frontend**: Next.js 15 (App Router), React 19, Tailwind CSS v4, Framer Motion, Lucide Icons.
+- **Backend**: Next.js Server Actions & API Routes.
+- **Database**: PostgreSQL via Prisma ORM.
+- **AI**: Google Gemini API (`@google/genai`).
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
 
-## Deploy on Vercel
+- Node.js 18+
+- A PostgreSQL database (or use local setup)
+- A Gemini API Key from [Google AI Studio](https://aistudio.google.com/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/mramansayyad/Traveloop.git
+   cd Traveloop
+   ```
 
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**:
+   Create a `.env` file in the root directory and add:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key
+   DATABASE_URL=your_postgresql_url
+   ```
+
+4. **Initialize Database**:
+   ```bash
+   npx prisma db push
+   ```
+
+5. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+---
+
+## 🗺️ Architecture
+
+Check out the [ARCHITECTURE.md](./ARCHITECTURE.md) file for a deep dive into the system design and Gemini integration patterns.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
