@@ -49,9 +49,9 @@ export default function Header() {
           <button className="text-slate-500 hover:text-slate-700 transition-colors">
             <Bell size={20} />
           </button>
-          <div className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center cursor-pointer">
+          <Link href="/profile" className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center cursor-pointer hover:bg-slate-300 transition-colors">
             <User size={18} className="text-slate-600" />
-          </div>
+          </Link>
         </div>
       </div>
     </header>
