@@ -5,6 +5,7 @@ import Header from "@/components/shared/Header";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import OSMMap from "@/components/shared/OSMMap";
+import AIChatWidget from "@/components/shared/AIChatWidget";
 
 export default async function TripItinerary({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -199,6 +200,8 @@ export default async function TripItinerary({ params }: { params: Promise<{ id: 
             <OSMMap cityName={trip.stops[0]?.cityName || "Paris"} />
           </div>
         </div>
+        {/* Floating AI Chat Widget */}
+        <AIChatWidget context={`Trip to ${trip.title}. Description: ${trip.description || ""}`} />
       </main>
     </div>
   );

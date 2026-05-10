@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { ai, defaultModel } from "@/lib/gemini";
 
 export async function saveTrip(data: {
   title: string;
@@ -78,5 +79,27 @@ export async function saveTrip(data: {
   } catch (error) {
     console.error("Failed to save trip:", error);
     return { success: false, error: "Failed to save trip to database." };
+  }
+}
+
+export async function askAI(question: string, context: string) {
+  try {
+    const prompt = `You are a helpful travel assistant for Traveloop. 
+    The user is looking at their itinerary and asking a question.
+    
+    Trip Context: ${context}
+    User Question: ${question}
+    
+    Provide a concise, friendly, and helpful answer.`;
+
+    const response = await ai.models.generateContent({
+      model: defaultModel,
+      contents: prompt,
+    });
+
+    return { success: true, answer: response.text };
+  } catch (error) {
+    console.error("Failed to ask AI:", error);
+    return { success: false, error: "Failed to get response from AI." };
   }
 }
