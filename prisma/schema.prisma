@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -24,7 +24,7 @@ model TravelPreferences {
   userId      String   @unique
   user        User     @relation(fields: [userId], references: [id])
   budgetLevel String?  // e.g., "budget", "moderate", "luxury"
-  interests   String[] // e.g., ["culture", "food", "adventure"]
+  interests   String?  // e.g., "culture,food,adventure" (Stored as comma-separated string for SQLite compatibility)
   pace        String?  // e.g., "slow", "moderate", "fast"
 }
 

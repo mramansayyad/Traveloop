@@ -1,11 +1,21 @@
-"use client";
-
 import React from "react";
 import { Compass, MapPin, Calendar, DollarSign, Plus, Sparkles, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/shared/Header";
+import prisma from "@/lib/prisma";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  // Fetch trips from the database
+  // In a real app, we would filter by the logged-in user
+  const trips = await prisma.trip.findMany({
+    include: {
+      budget: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
       <Header />
@@ -37,19 +47,35 @@ export default function Dashboard() {
               <span className="text-sm text-slate-500 cursor-pointer hover:text-slate-700 font-medium">View All</span>
             </div>
             
-            {/* Trip Card */}
-            <div className="bg-slate-50 p-4 rounded-xl flex items-center gap-4 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-100">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <Compass size={24} className="text-indigo-600" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-base text-slate-900">Trip to Japan</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Oct 12 - Oct 20, 2026</p>
-              </div>
-              <div className="text-right">
-                <span className="text-indigo-600 font-semibold text-base">$2,400</span>
-                <p className="text-xs text-slate-500 font-medium">Budget</p>
-              </div>
+            {/* Trip Cards */}
+            <div className="space-y-4">
+              {trips.length === 0 ? (
+                <div className="text-center py-8 text-slate-400">
+                  <Compass size={40} className="mx-auto mb-3 text-slate-300" />
+                  <p className="font-medium text-slate-600">No trips planned yet</p>
+                  <p className="text-xs mt-1">Click "Plan New Trip" to get started</p>
+                </div>
+              ) : (
+                trips.map((trip) => (
+                  <div key={trip.id} className="bg-slate-50 p-4 rounded-xl flex items-center gap-4 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-100">
+                    <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                      <Compass size={24} className="text-indigo-600" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-base text-slate-900">{trip.title}</h3>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        {new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-indigo-600 font-semibold text-base">
+                        ${trip.budget?.totalBudget.toLocaleString() || "0"}
+                      </span>
+                      <p className="text-xs text-slate-500 font-medium">Budget</p>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
@@ -62,11 +88,13 @@ export default function Dashboard() {
               </h2>
             </div>
             <div className="text-center py-4 flex-1 flex flex-col justify-center">
-              <span className="text-4xl font-bold text-slate-900">$1,200</span>
-              <p className="text-sm text-slate-500 mt-1 font-medium">Saved this month</p>
+              <span className="text-4xl font-bold text-slate-900">
+                ${trips.reduce((acc, trip) => acc + (trip.budget?.totalBudget || 0), 0).toLocaleString()}
+              </span>
+              <p className="text-sm text-slate-500 mt-1 font-medium">Total Planned Budget</p>
               <div className="mt-4 flex items-center justify-center gap-1 text-xs text-emerald-600 font-medium">
                 <TrendingUp size={14} />
-                <span>12% better than last month</span>
+                <span>Active planning in progress</span>
               </div>
             </div>
           </div>

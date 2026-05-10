@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Compass, Calendar, MapPin, Sparkles, ArrowRight, Upload, Loader2, Check } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/shared/Header";
+import { saveTrip } from "@/app/actions/trip";
+import { useRouter } from "next/navigation";
 
 export default function CreateTrip() {
   const [loading, setLoading] = useState(false);
@@ -16,6 +18,8 @@ export default function CreateTrip() {
     budget: "moderate",
   });
   const [result, setResult] = useState<any>(null);
+  const [saving, setSaving] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -230,8 +234,35 @@ export default function CreateTrip() {
                   </div>
                 </div>
 
-                <button className="w-full bg-indigo-600 text-white py-2 rounded-xl font-medium text-sm hover:bg-indigo-700 transition-colors shadow-sm mt-auto">
-                  Save Trip to Dashboard
+                <button 
+                  onClick={async () => {
+                    setSaving(true);
+                    const res = await saveTrip({
+                      title: formData.title,
+                      destination: formData.destination,
+                      startDate: formData.startDate,
+                      endDate: formData.endDate,
+                      budget: formData.budget,
+                      itinerary: result,
+                    });
+                    setSaving(false);
+                    if (res.success) {
+                      router.push("/dashboard");
+                    } else {
+                      alert(res.error);
+                    }
+                  }}
+                  disabled={saving}
+                  className="w-full bg-indigo-600 text-white py-2 rounded-xl font-medium text-sm hover:bg-indigo-700 transition-colors shadow-sm mt-auto flex items-center justify-center gap-2"
+                >
+                  {saving ? (
+                    <>
+                      <Loader2 size={14} className="animate-spin" />
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    "Save Trip to Dashboard"
+                  )}
                 </button>
               </div>
             )}
