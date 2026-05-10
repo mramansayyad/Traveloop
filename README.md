@@ -70,9 +70,12 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 
 ---
 
-## 🗺️ Architecture
+## 📚 Documentation
 
-Check out the [ARCHITECTURE.md](./ARCHITECTURE.md) file for a deep dive into the system design and Gemini integration patterns.
+Explore more about the project:
+- 🏗️ **[Architecture](./ARCHITECTURE.md)**: Deep dive into system design and Gemini integration.
+- 🤝 **[Contributing](./CONTRIBUTING.md)**: Guidelines for contributing to the project.
+
 
 ---
 
