@@ -1,5 +1,3 @@
-"use client"; // Wait, Server Actions must be "use server"!
-// Let's make sure it's "use server"
 "use server";
 
 import prisma from "@/lib/prisma";
