@@ -5,9 +5,10 @@ import Header from "@/components/shared/Header";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-export default async function TripItinerary({ params }: { params: { id: string } }) {
+export default async function TripItinerary({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const trip = await prisma.trip.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       stops: {
         include: {
