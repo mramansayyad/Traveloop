@@ -157,8 +157,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="bg-slate-100 h-80 rounded-3xl flex items-center justify-center text-slate-400 font-medium border border-slate-200">
-              [ Dashboard Screenshot Placeholder ]
+            <div className="relative h-80 rounded-3xl overflow-hidden border border-slate-200 shadow-lg">
+              <Image
+                src="/dashboard-preview.png"
+                alt="Traveloop Dashboard"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
         </div>
