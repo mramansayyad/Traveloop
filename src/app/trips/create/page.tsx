@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Compass, Calendar, MapPin, Sparkles, ArrowRight, Upload } from "lucide-react";
+import { Compass, Calendar, MapPin, Sparkles, ArrowRight, Upload, Loader2, Check } from "lucide-react";
 import Link from "next/link";
 
 export default function CreateTrip() {
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     destination: "",
@@ -13,152 +14,224 @@ export default function CreateTrip() {
     endDate: "",
     budget: "moderate",
   });
+  const [result, setResult] = useState<any>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setResult(null);
     
-    // Simulate API call to Gemini
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/gemini/generate-itinerary", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          destination: formData.destination,
+          days: 5, // Defaulting to 5 days for now, or calculate from dates
+          budget: formData.budget,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setResult(data);
+        setSuccess(true);
+      } else {
+        alert(data.error || "Failed to generate itinerary");
+      }
+    } catch (error) {
+      console.error("Error generating itinerary:", error);
+      alert("An error occurred while generating the itinerary.");
+    } finally {
       setLoading(false);
-      alert("AI Itinerary Generated! (Redirecting to itinerary view...)");
-      // In a real app, we would redirect to /trips/[id]
-    }, 2000);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center p-4">
-      {/* Background Gradients */}
-      <div className="absolute top-0 -left-40 w-80 h-80 bg-indigo-700 rounded-full filter blur-3xl opacity-20"></div>
-      <div className="absolute bottom-0 -right-40 w-80 h-80 bg-purple-700 rounded-full filter blur-3xl opacity-20"></div>
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col items-center justify-center p-6">
+      {/* Header */}
+      <div className="w-full max-w-4xl text-center mb-8">
+        <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-4 py-1.5 rounded-full mb-4">
+          <Sparkles size={14} className="text-indigo-600" />
+          <span className="text-xs font-semibold text-indigo-700">AI-Powered Planning</span>
+        </div>
+        <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-2">Plan Your Next Adventure</h1>
+        <p className="text-lg text-gray-600">Enter your details and let Gemini create a custom itinerary for you.</p>
+      </div>
 
-      <div className="w-full max-w-2xl glass-dark p-8 rounded-3xl z-10">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full mb-4">
-            <Sparkles size={14} className="text-cyan-400" />
-            <span className="text-xs font-medium">Step 1: The Vision</span>
-          </div>
-          <h1 className="text-3xl font-bold text-gradient">Create Your Next Adventure</h1>
-          <p className="text-gray-400 mt-2">Fill in the details and let Gemini do the heavy lifting.</p>
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Form Section */}
+        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+          <h2 className="text-xl font-semibold mb-6">Trip Details</h2>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Trip Title */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Trip Title</label>
+              <div className="relative">
+                <Compass className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="text"
+                  placeholder="e.g., Summer in Japan"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Destination */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Destination</label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="text"
+                  placeholder="e.g., Tokyo"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  value={formData.destination}
+                  onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Dates */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Start Date</label>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type="date"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    value={formData.startDate}
+                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">End Date</label>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type="date"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    value={formData.endDate}
+                    onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Budget Level */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Budget Level</label>
+              <div className="grid grid-cols-3 gap-3">
+                {["budget", "moderate", "luxury"].map((level) => (
+                  <button
+                    key={level}
+                    type="button"
+                    className={`py-2.5 rounded-xl border text-sm font-medium capitalize transition-all ${
+                      formData.budget === level
+                        ? "bg-indigo-600 border-transparent text-white shadow-sm"
+                        : "bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100"
+                    }`}
+                    onClick={() => setFormData({ ...formData, budget: level })}
+                  >
+                    {level}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-between items-center pt-4">
+              <Link href="/dashboard" className="text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+                Back to Dashboard
+              </Link>
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:bg-indigo-700 transition-colors disabled:opacity-70 shadow-sm"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    <span>Generating...</span>
+                  </>
+                ) : success ? (
+                  <>
+                    <Check size={18} />
+                    <span>Regenerate</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Generate Plan</span>
+                    <ArrowRight size={18} />
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Trip Title */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Trip Title</label>
-            <div className="relative">
-              <Compass className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-              <input
-                type="text"
-                placeholder="e.g., Summer in Japan, Paris Getaway"
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                required
-              />
+        {/* Result Section */}
+        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center items-center text-center">
+          {!result && !loading && (
+            <div className="text-gray-400">
+              <Compass size={48} className="mx-auto mb-4 text-gray-300" />
+              <p className="text-lg font-medium text-gray-500">Your itinerary will appear here</p>
+              <p className="text-sm mt-1">Fill out the form and click Generate Plan</p>
             </div>
-          </div>
+          )}
 
-          {/* Destination */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Destination</label>
-            <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-              <input
-                type="text"
-                placeholder="e.g., Tokyo, Paris, Bali"
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
-                value={formData.destination}
-                onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
-                required
-              />
+          {loading && (
+            <div className="text-center">
+              <Loader2 size={48} className="mx-auto mb-4 text-indigo-600 animate-spin" />
+              <p className="text-lg font-medium text-gray-900">Gemini is thinking...</p>
+              <p className="text-sm text-gray-500 mt-1">Crafting your perfect itinerary</p>
             </div>
-          </div>
+          )}
 
-          {/* Dates */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Start Date</label>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                <input
-                  type="date"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
-                  value={formData.startDate}
-                  onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                  required
-                />
+          {result && (
+            <div className="text-left w-full h-full flex flex-col">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="bg-green-50 p-1.5 rounded-full">
+                  <Check size={16} className="text-green-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900">Itinerary Generated!</h3>
               </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">End Date</label>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                <input
-                  type="date"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
-                  value={formData.endDate}
-                  onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                  required
-                />
+              
+              <div className="bg-gray-50 p-4 rounded-xl mb-4 text-sm text-gray-700 flex-1 overflow-auto max-h-[300px]">
+                <p className="font-semibold text-indigo-600 mb-2">{result.trip?.destination} Plan</p>
+                <p className="text-gray-500 mb-4">{result.trip?.summary}</p>
+                
+                <div className="space-y-4">
+                  {result.itinerary?.map((day: any) => (
+                    <div key={day.day} className="border-l-2 border-indigo-200 pl-3">
+                      <p className="font-medium text-gray-900">Day {day.day}: {day.title}</p>
+                      <ul className="text-xs text-gray-600 mt-1 space-y-1">
+                        {day.activities?.map((act: any, idx: number) => (
+                          <li key={idx}>• {act.title}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Budget Level */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Budget Level</label>
-            <div className="grid grid-cols-3 gap-3">
-              {["budget", "moderate", "luxury"].map((level) => (
-                <button
-                  key={level}
-                  type="button"
-                  className={`py-3 rounded-xl border capitalize transition-colors ${
-                    formData.budget === level
-                      ? "gradient-premium border-transparent text-white"
-                      : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10"
-                  }`}
-                  onClick={() => setFormData({ ...formData, budget: level })}
-                >
-                  {level}
-                </button>
-              ))}
+              <button className="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition-colors shadow-sm mt-auto">
+                Save Trip
+              </button>
             </div>
-          </div>
-
-          {/* Cover Image Placeholder */}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Cover Image</label>
-            <div className="border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:bg-white/5 transition-colors cursor-pointer">
-              <Upload className="mx-auto text-gray-500 mb-2" size={24} />
-              <p className="text-sm text-gray-400">Click to upload or drag and drop</p>
-              <p className="text-xs text-gray-600 mt-1">SVG, PNG, JPG or GIF (max. 800x400px)</p>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-between items-center pt-4">
-            <Link href="/dashboard" className="text-gray-400 hover:text-white transition-colors">
-              Cancel
-            </Link>
-            <button
-              type="submit"
-              disabled={loading}
-              className="gradient-premium text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {loading ? (
-                <span>Generating...</span>
-              ) : (
-                <>
-                  <span>Generate Itinerary</span>
-                  <ArrowRight size={18} />
-                </>
-              )}
-            </button>
-          </div>
-        </form>
+          )}
+        </div>
       </div>
     </div>
   );
